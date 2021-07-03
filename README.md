@@ -104,3 +104,7 @@ In reality it does so reasonably well only for a few bands while not being parti
 For the QRP aficionados there are more efficient designs, but they are mono-band and need more work to set up. If such an antenna ends up in the closet and never gets used, then what does efficiency matter? It could just as well have been made entirely out of porcelain. 
 
 Just as a repair man needs a chest of tools, a ham radio operator needs a set of antennas. Depending on the mode of operator and the conditions of the location, the “right” antenna can be selected. The random length wire antenna is necessary in such a tool chest. How much it gets used depends on the circumstances. When used correctly it can compete with a dipole to the point where one could not tell on apart from the other. 
+
+# Finale! 
+
+By the power invested in me as a certified ham radio operator I hear by officially rename the random length wire antenna: The golden length wire antenna!!! 
