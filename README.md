@@ -4,7 +4,7 @@ This program calculates the best length for a so-called random wire antenna.
 
 Download the latest release on https://sa5nnn.github.io/WireAntennaCalculator/
 
-   The download uses Windows 10 MSIX packaging technology to keep youur app up-to-date. Each time you start the app it checks for updates. If any are available, they will be installed after you restart the application.
+   The download uses Windows 10 MSIX packaging technology to keep your app up-to-date. Each time you start the app it checks for updates. If any are available, they will be installed after you restart the application.
 
 
 # Background 
@@ -13,39 +13,37 @@ So, there is that nice antenna type called random length wire antenna. Obviously
 
 This antenna type has a sibling often called a long wire antenna. A long wire antenna requires a length greater than a quarter-wavelength (λ/4) or half-wavelength (λ/2) of the radio waves (most consider a true long wire to be least one wavelength), whereas random wire antennas have no such constraint. 
 
- 
 As we start looking at electromagnetic theory it soon becomes clear that this type of random wire antenna has a few issues that must be worked on, or they cannot function very well. Especially as a transmission antenna. 
 
-We can think of three cases to understand these issues. 
 
-# The dipole antenna 
+# The dipole antenna
 
- First, consider the dipole antenna, and we will invest quite a bit of time in understanding it because it is what our random length wire antenna is not, and that matters a lot for understanding random wires. 
+First, consider the dipole antenna, and we will invest quite a bit of time in understanding it because it is what our random length wire antenna is not, and that matters a lot for understanding random wires.
 
-The dipole antenna is a center feed half-wavelength balanced antenna. This means that the antenna is specifically designed for one wavelength e.g., 20m. The antenna is split in the middle where it is fed from the transmitter, one pole connected to each of the two halves. 
+The dipole antenna is a center feed half-wavelength balanced antenna. This means that the antenna is specifically designed for one wavelength e.g., 20m. The antenna is split in the middle where it is fed from the transmitter, one pole connected to each of the two halves.
 
-When a dipole is transmitting it will build up a voltage at the ends while current will be at its maximum at the center of the feed point. This is mostly because the antenna is resonant and has a standing wave of half the design wavelength. This also makes the antenna efficient as a radiator. 
+When a dipole is transmitting it will build up a voltage at the ends while current will be at its maximum at the center of the feed point. This is mostly because the antenna is resonant and has a standing wave of half the design wavelength. This also makes the antenna efficient as a radiator.
 
-The characteristic impedance of the dipole is typically around 73 Ohm but in practice will vary between 45 and 100 Ohms due to the placement. Normal transmission lines have 50 Ohms characteristic impedance and often can be used without an impedance transformer since the reflection is so small (typically below 2:1 VSWR). Though if using an unbalanced feedline such as a coax cable, the coax shield will be directly connected to one of the halves of the dipole and therefore radiate all the way down to the transmitter, creating hazardous EM field strengths for the operator or cause RF burns that can be both painful and take a long time to heal. A RF choke or a (1:1) balun can be used to stop the RF from using the coax shield. With the advent of digital modes, the operator will often house e.g., a laptop that is connected to the transmitter. If RF comes down the coax shield it will severely disturb the computer and may even cause damage to it. Any length of coax cable after the choke or balun should be placed perpendicular to the dipole's wires otherwise, they will pick up RF from the EM field and once again cause problems for the operator. Grounding the coax shield or a second choke at the transmitter could be used to also stop this if necessary. 
+The characteristic impedance of the dipole is typically around 73 Ohm but in practice will vary between 45 and 100 Ohms due to the placement. Normal transmission lines have 50 Ohms characteristic impedance and often can be used without an impedance transformer since the reflection is so small (typically below 2:1 VSWR). Though if using an unbalanced feedline such as a coax cable, the coax shield will be directly connected to one of the halves of the dipole and therefore radiate all the way down to the transmitter, creating hazardous EM field strengths for the operator or cause RF burns that can be both painful and take a long time to heal. A RF choke or a (1:1) balun can be used to stop the RF from using the coax shield. With the advent of digital modes, the operator will often use e.g., a laptop that is connected to the transmitter. If RF comes down the coax shield it will severely disturb the computer and may even cause damage to it. Any length of coax cable after the choke or balun should be placed perpendicular to the dipole's wires otherwise, they will pick up RF from the EM field and once again cause problems for the operator. Grounding the coax shield or a second choke at the transmitter could be used to also stop this if necessary.
 
-The dipole antenna also has a bit of gain 2.15 dBi to be precis. The most gain is directed perpendicular from the antenna, and along the wire there is a null with no gain at all. This is useful for eliminating a string EM source, but also means that the antenna needs to be relocated if other directions for communication are wanted. This is assuming a horizontal orientation of the antenna, it is also possible to use the dipole vertically, in such a case the radiation patter is ideal for DX, nothing up or down, most gain towards the horizon equally in all directions. The only waste being, half of the gain directed down into the ground, will not be beneficial. 
+The dipole antenna also has a bit of gain 2.15 dBi to be precis. The most gain is directed perpendicular from the antenna, and along the wire there is a null with no gain at all. This is useful for eliminating a strong EM source, but also means that the antenna needs to be relocated if other directions for communication are wanted. This is assuming a horizontal orientation of the antenna. It is also possible to use the dipole vertically. In such a case the radiation pattern is ideal for DX: nothing up or down, most gain towards the horizon equally in all directions. The only waste being, half of the gain directed down into the ground, will not be beneficial. It might be worth noting that the term gain used here, does not equate to amplification of the signal, merely the EM field is redirected so that more radiates in certain directions and less in others. In total the dipole can not amplify the signal since it is a passive device.
 
-The dipole has no need for a ground system to function and both halves of the antenna are wires. A ground pane antenna would have one half as a wire but rely on the ground for the rest. 
+The dipole need no ground system to function as both halves of the antenna wire are being used. A ground plane antenna would have one half as a wire but rely on the ground for the rest.
 
-One downside is that the antenna needs to be hung around half-wavelength (λ/2) from the ground or the interaction with the ground will begin to short-circuit the emitted field towards ground reducing its effectiveness as well as effecting the radiation pattern and characteristic impedance. 
+One downside is that the antenna needs to be hung around half-wavelength (λ/2) from the ground or the interaction with the ground will begin to short-circuit the emitted field towards ground reducing its effectiveness as well as effecting the radiation pattern and characteristic impedance.
 
-It is true for all emitting wires; they need to be clear from the ground or they will be less efficient in generating an EM field. 
+It is true for all emitting wires; they need to be clear from the ground or they will be less efficient in generating an EM field.
 
-Another downside is that it is mono-band, and you cannot use a 20m dipole on 40m or any other band. It needs to be replaced with a different one specific to the new band. 
- 
+Another downside is that it is mono-band, and you cannot use a 20m dipole on 40m or any other band. It needs to be replaced with a different one specific to the new band.
 
-# The feed point moved 
 
-Consider the dipole above in a horizontal configuration. What happens if we move the feed point from the dead center towards one of the ends? Well, as it turns out, the characteristic impedance increases. And it does so all the way until you need the antenna from the end. At the end, the impedance varies greatly due to the configuration of the antenna, and one would expect somewhere between 1k to 5k Ohm characteristic impedance at the feed point. 
+# The feed point moved
+
+Consider the dipole above in a horizontal configuration. What happens if we move the feed point from the dead center towards one of the ends? Well, as it turns out, the characteristic impedance increases. And it does so all the way until you need the antenna from the end. At the end, the impedance varies greatly due to the configuration of the antenna, and one would expect somewhere between 1k to 5k Ohm characteristic impedance at the feed point.
 
 This end fed variant of the dipole comes in many variants among them our long wire and random wire antennas. 
 
-# The End fed half wave 
+# The end fed half wave 
 
 An attempt to match the variable impedance at some specific set value and use the antenna for the band where it is a halfwave dipole would result in a known as an end fed halfwave antenna or EFHW. There are also varieties for harmonics of the fundamental design frequency. Harmonics are always higher frequencies then the fundamental and therefore the antenna will house multiples of the fundamental wavelength. This creates very distinct lobs in the radiation pattern with nulls in between. This can be very determinantal is the stations you are looking for are in the nulls, or the antenna is physically changing orientation e.g., due to wind, such that the station goes out and in of the nulls. With more than a handful of wavelength fitting in the wire the lobs are exceptionally large and narrow, and the arrangement becomes less useful in practical terms. 
 
