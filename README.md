@@ -2,8 +2,10 @@
 
 This program calculates the best length for a so-called random wire antenna. 
 
- 
- 
+Download the latest release on https://sa5nnn.github.io/WireAntennaCalculator/
+
+   The download uses Windows 10 MSIX packaging technology to keep youur app up-to-date. Each time you start the app it checks for updates. If any are available, they will be installed after you restart the application.
+
 
 # Background 
 
