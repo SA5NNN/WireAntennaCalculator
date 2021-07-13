@@ -5,16 +5,24 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireAntennaUI", "WireAntennaUI\WireAntennaUI.csproj", "{97D327BD-59E2-4695-86B7-2C37A60E877F}"
 EndProject
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WireAntennaSetup", "WireAntennaSetup\WireAntennaSetup.wapproj", "{0B8AB57B-C553-4F02-A8A4-6433566EBF95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Debug|x64.ActiveCfg = Debug|x64
+		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Debug|x64.Build.0 = Debug|x64
+		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Release|x64.ActiveCfg = Release|x64
+		{97D327BD-59E2-4695-86B7-2C37A60E877F}.Release|x64.Build.0 = Release|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Debug|x64.ActiveCfg = Debug|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Debug|x64.Build.0 = Debug|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Debug|x64.Deploy.0 = Debug|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Release|x64.ActiveCfg = Release|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Release|x64.Build.0 = Release|x64
+		{0B8AB57B-C553-4F02-A8A4-6433566EBF95}.Release|x64.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
