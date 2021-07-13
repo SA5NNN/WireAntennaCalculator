@@ -9,7 +9,7 @@
   <Identity
     Name="bc95f15d-9d66-4e62-8080-7e5c4b0a6325"
     Publisher="CN=Combitech AB, OU=Technical Information Solutions, O=Combitech AB, L=VÄXJÖ, C=SE"
-    Version="1.0.0.0" />
+    Version="1.0.2.0" />
 
   <Properties>
     <DisplayName>WireAntennaSetup</DisplayName>
@@ -31,8 +31,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="WireAntennaSetup"
-        Description="WireAntennaSetup"
+        DisplayName="Wire Antenna Calculator"
+        Description="Calculates the appropriate lengths of a random length wire antenn."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
