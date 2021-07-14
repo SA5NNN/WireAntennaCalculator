@@ -87,6 +87,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\WireLengthUIViewModel.cs" />
+    <Compile Include="Views\EnumBindingSourceExtension.cs" />
     <Compile Include="Views\WireLengthUI.xaml.cs">
       <DependentUpon>WireLengthUI.xaml</DependentUpon>
     </Compile>
@@ -136,7 +137,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts">
+      <Version>10.0.19041.1</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\icons8-radio-tower-96.ico">

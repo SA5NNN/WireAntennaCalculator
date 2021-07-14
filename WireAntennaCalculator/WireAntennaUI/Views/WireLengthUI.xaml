@@ -5,14 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:viewmodels="clr-namespace:WireAntennaUI.ViewModels"
+             xmlns:views="clr-namespace:WireAntennaUI.Views"
              d:DataContext="{d:DesignInstance Type=viewmodels:WireLengthUIViewModelDesign}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <TextBox Margin="10,10,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New"
-                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
-        <Button Content="Calculate" Command="{Binding CalculateCommand}" IsDefault="True" Margin="0,0,10,10" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <Label Content="Max length [m]:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" Text="{Binding MaxLength}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="120"
+                 ToolTip="Stops generating lengths when they are longer then this length."/>
 
+        <Label Content="Velocity factor:" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,36,0,0" Text="{Binding VelocityFactor}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="120"
+                 ToolTip="The velocity factor of speed of light in the wire, usually 0.95. This effects the golden cut length but not the electrical lengths."/>
+
+        <Label Content="Result precision:" HorizontalAlignment="Left" Margin="260,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="260,36,0,0" VerticalAlignment="Top" Width="120"
+                  ItemsSource="{Binding Source={views:EnumBindingSource {x:Type viewmodels:Precision}}}"
+                  SelectedIndex="{Binding SelectedPrecision}"
+                  ToolTip="Decide the precision with which to present the result."/>
+
+
+        <TextBox Margin="10,64,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+        <Button Content="Calculate" Command="{Binding CalculateCommand}" IsDefault="True" Margin="0,0,10,10" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"
+                ToolTip="Perform calculations according to the settings you have made. Note if any values are marked in a red box, then the result does not use those values."/>
     </Grid>
 </UserControl>
