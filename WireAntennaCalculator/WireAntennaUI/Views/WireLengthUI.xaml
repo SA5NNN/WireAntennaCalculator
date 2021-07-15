@@ -8,8 +8,7 @@
              xmlns:views="clr-namespace:WireAntennaUI.Views"
              d:DataContext="{d:DesignInstance Type=viewmodels:WireLengthUIViewModelDesign}"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800">
     <Grid Background="White">
         <Label Content="Max length [m]:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" Text="{Binding MaxLength}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="120"
@@ -25,8 +24,29 @@
                   SelectedIndex="{Binding SelectedPrecision}"
                   ToolTip="Decide the precision with which to present the result."/>
 
+        <Label Content="HF:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="2200 m" IsChecked="{Binding Is2200Selected}" HorizontalAlignment="Left" Margin="60,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="630 m" IsChecked="{Binding Is630Selected}" HorizontalAlignment="Left" Margin="125,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="160 m" IsChecked="{Binding Is160Selected}" HorizontalAlignment="Left" Margin="183,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="80 m" IsChecked="{Binding Is80Selected}" HorizontalAlignment="Left" Margin="241,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="60 m" IsChecked="{Binding Is60Selected}" HorizontalAlignment="Left" Margin="293,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="40 m" IsChecked="{Binding Is40Selected}" HorizontalAlignment="Left" Margin="345,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="20 m" IsChecked="{Binding Is20Selected}" HorizontalAlignment="Left" Margin="397,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="15 m" IsChecked="{Binding Is15Selected}" HorizontalAlignment="Left" Margin="449,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="10 m" IsChecked="{Binding Is10Selected}" HorizontalAlignment="Left" Margin="501,70,0,0" VerticalAlignment="Top"/>
 
-        <TextBox Margin="10,64,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+        <Label Content="WARC:" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="30 m" IsChecked="{Binding Is30Selected}" HorizontalAlignment="Left" Margin="60,96,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="17 m" IsChecked="{Binding Is17Selected}" HorizontalAlignment="Left" Margin="125,96,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="12 m" IsChecked="{Binding Is12Selected}" HorizontalAlignment="Left" Margin="183,96,0,0" VerticalAlignment="Top"/>
+
+        <Label Content="VHF:" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="6 m" IsChecked="{Binding Is6Selected}" HorizontalAlignment="Left" Margin="60,122,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="2 m" IsChecked="{Binding Is2Selected}" HorizontalAlignment="Left" Margin="125,122,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="70 cm" IsChecked="{Binding Is70Selected}" HorizontalAlignment="Left" Margin="183,122,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="23 cm" IsChecked="{Binding Is23Selected}" HorizontalAlignment="Left" Margin="241,122,0,0" VerticalAlignment="Top"/>
+
+        <TextBox Margin="10,147,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
         <Button Content="Calculate" Command="{Binding CalculateCommand}" IsDefault="True" Margin="0,0,10,10" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"
                 ToolTip="Perform calculations according to the settings you have made. Note if any values are marked in a red box, then the result does not use those values."/>
     </Grid>
