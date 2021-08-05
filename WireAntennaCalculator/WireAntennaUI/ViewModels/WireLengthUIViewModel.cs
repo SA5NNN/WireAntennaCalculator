@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,12 @@ namespace WireAntennaUI.ViewModels {
         public double VelocityFactor {
             get => velocityFactor;
             set => SetProperty(ref velocityFactor, value, () => Calculate());
+        }
+
+        private double minimumTolerance = 0.1d;
+        public double MinimumTolerance {
+            get => minimumTolerance;
+            set => SetProperty(ref minimumTolerance, value, () => Calculate());
         }
 
         private int selectedPrecision;
@@ -138,6 +145,24 @@ namespace WireAntennaUI.ViewModels {
             set => SetProperty(ref is23Selected, value, () => Calculate());
         }
 
+        private ObservableCollection<CutLengthResult> cutLengths;
+        public ObservableCollection<CutLengthResult> CutLengths {
+            get => cutLengths;
+            set => SetProperty(ref cutLengths, value);
+        }
+
+        private ObservableCollection<ElectricalLengthResult> electricalLengths;
+        public ObservableCollection<ElectricalLengthResult> ElectricalLengths {
+            get => electricalLengths;
+            set => SetProperty(ref electricalLengths, value);
+        }
+
+        private ObservableCollection<HighImpedanceZoneResult> highImpedanceZones;
+        public ObservableCollection<HighImpedanceZoneResult> HighImpedanceZones {
+            get => highImpedanceZones;
+            set => SetProperty(ref highImpedanceZones, value);
+        }
+
         public DelegateCommand calculateCommand;
         public DelegateCommand CalculateCommand => calculateCommand ?? (calculateCommand = new DelegateCommand(Calculate));
         public void Calculate() {
@@ -176,9 +201,12 @@ namespace WireAntennaUI.ViewModels {
             if (Is23Selected)
                 selectedBands.Add(region1Bands.First(b => b.Band == Band.cm23));
 
-            // Print some helt and exit of no band was selected (true when app starts)
+            // Print some help and exit of no band was selected (true when app starts)
             if (selectedBands.Count < 1) {
                 ResultText = $"{Environment.NewLine}Check at least one band to perform a calculation";
+                CutLengths = new ObservableCollection<CutLengthResult>();
+                ElectricalLengths = new ObservableCollection<ElectricalLengthResult>();
+                HighImpedanceZones = new ObservableCollection<HighImpedanceZoneResult>();
                 return;
             }
 
@@ -244,7 +272,7 @@ namespace WireAntennaUI.ViewModels {
         /// calculating the high impedance ranges for multiple bands where multple bands may share the same exclusion zone, at least partially.
         /// </remarks>
         public List<Range> GetElectricalLengths(IList<Range> highImpedanceRanges, double stopLength) {
-            // E.g. for a 2200m antenna, 100m long there will have no highImpedanceRanges. The available electrical length is unrestricted in such a case.
+            // E.g. for a 2200m antenna, max 100m long, will have no highImpedanceRanges. The available electrical length is unrestricted in such a case.
             if (highImpedanceRanges.Count < 1)
                 return new List<Range> { new Range { Start = 0d, Stop = stopLength } };
 
@@ -296,7 +324,6 @@ namespace WireAntennaUI.ViewModels {
 
         private void ShowResult(IEnumerable<Range> electricalLengths, IEnumerable<Range> highImpedanceRanges, IEnumerable<HamRadioBand> selectedBands) {
             var sb = new StringBuilder();
-            sb.AppendLine("Random length wire antenna design parameters:");
             sb.AppendLine(" - Region 1 bands taken into account:");
             foreach (var band in selectedBands) {
                 sb.AppendLine($"{GetBandName(band.Band),10} ({band.Start,6} - {band.Stop,6} [MHz])");
@@ -305,35 +332,50 @@ namespace WireAntennaUI.ViewModels {
             sb.AppendLine($" - Velocity factor: {VelocityFactor}");
             sb.AppendLine($" - Speed of light: {speedOfLight} m/s");
 
-            sb.AppendLine().AppendLine("Golden cut lengths:");
-            sb.AppendLine($"(Velocity factor of {VelocityFactor} taken into account)");
-            sb.AppendLine($"{"Cut length [m]",14}{"Tolerance +/- [m]",18}");
+            var cl = new ObservableCollection<CutLengthResult>();
             foreach (var zone in electricalLengths) {
                 var (mean, tol) = GetMeanAndTolerance(zone);
-                var length = string.Format($"{{0,14:F{SelectedPrecision}}}", mean * VelocityFactor);
-                var tolerance = string.Format($"{{0,18:F{SelectedPrecision}}}", tol * VelocityFactor);
-                sb.AppendLine($"{length}{tolerance}");
+                // Hide results where the tolerance is smaller then what the user wants to see
+                if (tol * VelocityFactor >= MinimumTolerance) {
+                    //sb.AppendLine($"{length}{tolerance}");
+                    cl.Add(new CutLengthResult {
+                        OriginalLength = mean * VelocityFactor,
+                        Length = string.Format($"{{0:F{SelectedPrecision}}}", mean * VelocityFactor),
+                        OriginalTolerance = tol * VelocityFactor,
+                        Tolerance = string.Format($"{{0:F{SelectedPrecision}}}", tol * VelocityFactor) }
+                    );
+                }
             }
+            // Assign to data binding for display in grid
+            CutLengths = cl;
 
-            sb.AppendLine().AppendLine("Available electrical lengths:");
-            sb.AppendLine($"{"Start [m]",9}{"Stop [m]",9}{"Span [m]",9}");
+            var el = new ObservableCollection<ElectricalLengthResult>();
             foreach (var zone in electricalLengths) {
-                var start = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Start);
-                var stop = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Stop);
-                var width = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Width);
-                sb.AppendLine($"{start}{stop}{width}");
+                el.Add(new ElectricalLengthResult {
+                    OriginalStart = zone.Start,
+                    Start = string.Format($"{{0:F{SelectedPrecision}}}", zone.Start),
+                    OriginalStop = zone.Stop,
+                    Stop = string.Format($"{{0:F{SelectedPrecision}}}", zone.Stop),
+                    OriginalWidth = zone.Width,
+                    Width = string.Format($"{{0:F{SelectedPrecision}}}", zone.Width),
+                });
             }
+            ElectricalLengths = el;
 
-            sb.AppendLine().AppendLine("Do not cut the wire at any length within these zones, or you may not be able to tune the wire due to excessive impedance (> 4 kOhm).");
-            sb.AppendLine("High impedance zones:");
-            sb.AppendLine($"(Velocity factor of {VelocityFactor} taken into account)");
-            sb.AppendLine($"{"Start [m]",9}{"Stop [m]",9}{"Span [m]",9} Contributing band");
+            var hiZ = new ObservableCollection<HighImpedanceZoneResult>();
             foreach (var zone in highImpedanceRanges) {
-                var start = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Start * VelocityFactor);
-                var stop = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Stop * VelocityFactor);
-                var width = string.Format($"{{0,9:F{SelectedPrecision}}}", zone.Width);
-                sb.AppendLine($"{start}{stop}{width}{GetBandName(zone.ContributingBand),9}");
+                hiZ.Add(new HighImpedanceZoneResult {
+                    OriginalStart = zone.Start,
+                    Start = string.Format($"{{0:F{SelectedPrecision}}}", zone.Start * VelocityFactor),
+                    OriginalStop = zone.Stop,
+                    Stop = string.Format($"{{0:F{SelectedPrecision}}}", zone.Stop * VelocityFactor),
+                    OriginalWidth = zone.Width,
+                    Width = string.Format($"{{0:F{SelectedPrecision}}}", zone.Width),
+                    OriginalBand = zone.ContributingBand,
+                    Band = GetBandName(zone.ContributingBand)
+                });
             }
+            HighImpedanceZones = hiZ;
             ResultText = sb.ToString();
         }
 
@@ -457,6 +499,27 @@ namespace WireAntennaUI.ViewModels {
         m2,
         cm70,
         cm23,
+    }
+
+    public class CutLengthResult {
+        public double OriginalLength { get; set; }
+        public string Length { get; set; }
+        public double OriginalTolerance { get; set; }
+        public string Tolerance { get; set; }
+    }
+
+    public class ElectricalLengthResult {
+        public double OriginalStart { get; set; }
+        public string Start { get; set; }
+        public double OriginalStop { get; set; }
+        public string Stop { get; set; }
+        public double OriginalWidth { get; set; }
+        public string Width { get; set; }
+    }
+
+    public class HighImpedanceZoneResult : ElectricalLengthResult {
+        public string Band { get; set; }
+        public Band OriginalBand { get; set; }
     }
 
 #if DEBUG

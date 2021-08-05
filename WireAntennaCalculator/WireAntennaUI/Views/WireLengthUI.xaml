@@ -8,18 +8,22 @@
              xmlns:views="clr-namespace:WireAntennaUI.Views"
              d:DataContext="{d:DesignInstance Type=viewmodels:WireLengthUIViewModelDesign}"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800">
-    <Grid Background="White">
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1200">
+    <Grid>
         <Label Content="Max length [m]:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" Text="{Binding MaxLength}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="120"
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" Text="{Binding MaxLength}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="93"
                  ToolTip="Stops generating lengths when they are longer then this length."/>
 
-        <Label Content="Velocity factor:" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,36,0,0" Text="{Binding VelocityFactor}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="120"
+        <Label Content="Velocity factor:" HorizontalAlignment="Left" Margin="108,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="108,35,0,0" Text="{Binding VelocityFactor}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="88"
                  ToolTip="The velocity factor of speed of light in the wire, usually 0.95. This effects the golden cut length but not the electrical lengths."/>
 
-        <Label Content="Result precision:" HorizontalAlignment="Left" Margin="260,10,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="260,36,0,0" VerticalAlignment="Top" Width="120"
+        <Label Content="Minimum tolerance [m]:" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="201,35,0,0" Text="{Binding MinimumTolerance}" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="137"
+                 ToolTip="Use this field to reduce the amount of cut lengths by filtering on tolerance."/>
+
+        <Label Content="Result precision:" HorizontalAlignment="Left" Margin="343,10,0,0" VerticalAlignment="Top" />
+        <ComboBox HorizontalAlignment="Left" Margin="343,36,0,0" VerticalAlignment="Top" Width="120"
                   ItemsSource="{Binding Source={views:EnumBindingSource {x:Type viewmodels:Precision}}}"
                   SelectedIndex="{Binding SelectedPrecision}"
                   ToolTip="Decide the precision with which to present the result."/>
@@ -46,7 +50,92 @@
         <CheckBox Content="70 cm" IsChecked="{Binding Is70Selected}" HorizontalAlignment="Left" Margin="183,122,0,0" VerticalAlignment="Top"/>
         <CheckBox Content="23 cm" IsChecked="{Binding Is23Selected}" HorizontalAlignment="Left" Margin="241,122,0,0" VerticalAlignment="Top"/>
 
-        <TextBox Margin="10,147,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+        <Label Content="Golden cuts (velocity factor accounted for):" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top"/>
+        <DataGrid ItemsSource="{Binding CutLengths}" AutoGenerateColumns="False" Margin="10,168,0,35"
+                  CanUserAddRows="False" CanUserDeleteRows="False" AlternatingRowBackground="#FFEFFAFD" HorizontalAlignment="Left" Width="262">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Length, StringFormat={}{0:F2}}" Header="Cut length [m]" SortMemberPath="OriginalLength">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Tolerance, StringFormat={}{0:F2}}" Header="Tolerance +/- [m]" SortMemberPath="OriginalTolerance">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="Available electrical lengths:" HorizontalAlignment="Left" Margin="277,142,0,0" VerticalAlignment="Top"/>
+        <DataGrid ItemsSource="{Binding ElectricalLengths}" AutoGenerateColumns="False" Margin="277,168,0,35"
+                  CanUserAddRows="False" CanUserDeleteRows="False" AlternatingRowBackground="#FFEFFAFD" HorizontalAlignment="Left" Width="219">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Start, StringFormat={}{0:F2}}" Header="Start [m]" SortMemberPath="OriginalStart">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Stop, StringFormat={}{0:F2}}" Header="Stop [m]" SortMemberPath="OriginalStop">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Width, StringFormat={}{0:F2}}" Header="Span [m]" SortMemberPath="OriginalWidth">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="High impedance zones (velocity factor accounted for):" HorizontalAlignment="Left" Margin="501,142,0,0" VerticalAlignment="Top"/>
+        <DataGrid ItemsSource="{Binding HighImpedanceZones}" AutoGenerateColumns="False" Margin="501,168,0,35"
+                  CanUserAddRows="False" CanUserDeleteRows="False" AlternatingRowBackground="#FFEFFAFD" HorizontalAlignment="Left" Width="290">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Start, StringFormat={}{0:F2}}" Header="Start [m]" SortMemberPath="OriginalStart">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Stop, StringFormat={}{0:F2}}" Header="Stop [m]" SortMemberPath="OriginalStop">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Width, StringFormat={}{0:F2}}" Header="Span [m]" SortMemberPath="OriginalWidth">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Band}" Header="Span [m]" SortMemberPath="OriginalBand">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="Current design parameters:" HorizontalAlignment="Left" Margin="796,142,0,0" VerticalAlignment="Top"/>
+        <TextBox Margin="796,168,10,35" TextWrapping="Wrap" Text="{Binding ResultText}" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
         <Button Content="Calculate" Command="{Binding CalculateCommand}" IsDefault="True" Margin="0,0,10,10" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"
                 ToolTip="Perform calculations according to the settings you have made. Note if any values are marked in a red box, then the result does not use those values."/>
     </Grid>
