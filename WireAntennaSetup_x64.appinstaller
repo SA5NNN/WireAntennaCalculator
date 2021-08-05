@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInstaller
 	Uri="https://sa5nnn.github.io/WireAntennaCalculator/WireAntennaSetup_x64.appinstaller"
-	Version="1.1.2.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	Version="1.2.0.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 	<MainPackage
 		Name="bc95f15d-9d66-4e62-8080-7e5c4b0a6325"
-		Version="1.1.2.0"
+		Version="1.2.0.0"
 		Publisher="CN=Combitech AB, OU=Technical Information Solutions, O=Combitech AB, L=VÄXJÖ, C=SE"
-		Uri="https://sa5nnn.github.io/WireAntennaCalculator/WireAntennaSetup_1.1.2.0_x64_Test/WireAntennaSetup_1.1.2.0_x64.msix"
+		Uri="https://sa5nnn.github.io/WireAntennaCalculator/WireAntennaSetup_1.2.0.0_x64_Test/WireAntennaSetup_1.2.0.0_x64.msix"
 		ProcessorArchitecture="x64" />
 	<UpdateSettings>
 		<OnLaunch
